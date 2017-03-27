@@ -27,7 +27,7 @@ class TeleopTurtle:
 
     def callback(self,msg):
         twist = Twist()
-        twist.linear.x = self.linear_scale * msg.axes[self.linear_axis]
+        twist.linear.x = 10*abs(msg.axes[3]) * msg.axes[self.linear_axis]
         twist.angular.z = self.angular_scale * msg.axes[self.angular_axis]
         self.twist=twist
 	if (msg.buttons[3]==1 and msg.buttons[2]==1):
