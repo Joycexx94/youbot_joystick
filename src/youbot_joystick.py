@@ -14,7 +14,7 @@ class TeleopTurtle:
         self.angular_scale = rospy.get_param("scale_angular")
         self.robot_topic_name = rospy.get_param("robot_topic_name") 
 
-        #rospy.wait_for_service('reset')
+        #rospy.wait_for_service('base/switchOffMotors')
 
         self.twist = None
         self.twist_pub = rospy.Publisher(self.robot_topic_name, Twist,queue_size=1)
@@ -36,8 +36,8 @@ class TeleopTurtle:
           twist.linear.x = 0
           twist.linear.y = 0
           twist.angular.z = 0
-          #serv = rospy.ServiceProxy('reset', std_srvs.srv.Empty)
-          #serv()
+          #kill_base = rospy.ServiceProxy('base/switchOffMotors', std_srvs.srv.Empty)
+          #kill_base()
 
 
 if __name__ == "__main__": 
