@@ -10,8 +10,9 @@
   </node>
 
  <!-- Axes -->
-  <param name="axis_linear" value="1" type="int"/>
-  <param name="axis_angular" value="0" type="int"/>
+  <param name="axis_linear_x" value="1" type="int"/>
+  <param name="axis_linear_y" value="0" type="int"/>
+  <param name="axis_angular" value="2" type="int"/>
   <param name="scale_linear" value="2" type="double"/>
   <param name="scale_angular" value="2" type="double"/>
   <param name="robot_topic_name" value="/cmd_vel" type="string"/>
