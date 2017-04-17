@@ -13,6 +13,8 @@ class TeleopTurtle:
         self.linear_scale = rospy.get_param("scale_linear")
         self.angular_scale = rospy.get_param("scale_angular")
         self.robot_topic_name = rospy.get_param("robot_topic_name") 
+        rospy.loginfo("Waiting")
+
 
         #rospy.wait_for_service('base/switchOffMotors')
 
