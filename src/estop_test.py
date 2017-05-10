@@ -9,7 +9,7 @@ def publisher():
     twist = Twist()
     n = 0
     while not rospy.is_shutdown():
-        if n = 0:
+        if n == 0:
             twist.linear.y = 1
             n = 1
         else:
