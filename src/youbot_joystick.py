@@ -6,7 +6,9 @@ import std_srvs.srv
 
 class TeleopTurtle:
     def __init__(self):
+        # initialize note
         rospy.init_node('turtle_teleop_joy')
+        # get parameters from youbot_joystick.launch
         self.linear_axis_x = rospy.get_param("axis_linear_x")
         self.linear_axis_y = rospy.get_param("axis_linear_y")
         self.angular_axis = rospy.get_param("axis_angular")
@@ -16,36 +18,29 @@ class TeleopTurtle:
         rospy.loginfo("Waiting")
 
 
-        #rospy.wait_for_service('base/switchOffMotors')
 
         self.twist = None
+        # initialize publisher
         self.twist_pub = rospy.Publisher(self.robot_topic_name, Twist,queue_size=1)
+        # initialize subscriber
         rospy.Subscriber("joy", Joy, self.callback)
         rate = rospy.Rate(rospy.get_param('~hz', 20))
 
+        # spin and publish velocity commands
         while not rospy.is_shutdown():
             rate.sleep()
             if self.twist:
                 self.twist_pub.publish(self.twist)
-    '''
-    def switch_off_motors(self):
-         rospy.wait_for_service('/base/switchOffMotors')
-         switch_off = rospy.ServiceProxy('/base/switchOffMotors', std_srvs.srv.Empty)
-         switch_off()
-
-    def switch_on_motors(self):
-         rospy.wait_for_service('/base/switchOnMotors')
-         switch_on = rospy.ServiceProxy('/base/switchOnMotors', std_srvs.srv.Empty)
-         switch_on()
-    '''
 
     def callback(self,msg):
         twist = Twist()
+        # e-stop: if both button B and button Y are pressed, send 0 velocity to the robot
         if (msg.buttons[3]==1 and msg.buttons[2]==1):
             twist.linear.x = 0
             twist.linear.y = 0
             twist.angular.z = 0
         else:
+            # linear velocity and angular velocity controls
             twist.linear.x = (self.linear_scale + 1.9*msg.axes[3]) * msg.axes[self.linear_axis_x]
             twist.linear.y = (self.linear_scale + 1.9*msg.axes[3]) * msg.axes[self.linear_axis_y]
             twist.angular.z = self.angular_scale * msg.axes[self.angular_axis]
